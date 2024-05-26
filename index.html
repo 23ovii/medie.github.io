@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculează Media</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Nunito", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+            background-color: gray;
+            color: blue;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            padding: 8px;
+            width: 10%;
+            box-sizing: border-box;
+            background-color: rgb(180, 180, 180);
+            border: none;
+        }
+        .output {
+            margin-top: 20px;
+        }
+        .h1 {
+            font-weight: normal;
+            text-align: center;
+        }
+        #calculateButton {
+            color: blue;
+            background-color: #232323;
+            border: none;
+            border-radius: 3px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .cate {
+            font-size: 25px;
+            font-weight: 500;
+        }
+        #numNotes {
+            background-color: rgb(180, 180, 180);
+            border: none;
+            color: black;
+        }
+        #output {
+            color: black;
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="h1">Calculează-ți Media</h1>
+    <div class="input-group">
+        <label for="numNotes" class="cate">Câte note ai?</label>
+        <input type="number" id="numNotes" min="1">
+    </div>
+    <div id="notesInput" class="input-group"></div>
+    <button id="calculateButton" onclick="calculate()">Calculează</button>
+
+    <div class="output" id="output"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("numNotes").focus();
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.addEventListener('keydown', function(event) {
+                if (event.key === "Enter") {
+                    const activeElement = document.activeElement;
+                    if (activeElement.tagName === "INPUT") {
+                        event.preventDefault();
+                        const inputs = document.querySelectorAll('input');
+                        const index = Array.prototype.indexOf.call(inputs, activeElement);
+                        const nextInput = inputs[index + 1];
+                        if (nextInput) {
+                            nextInput.focus();
+                        } else {
+                            document.getElementById('calculateButton').click();
+                        }
+                    }
+                }
+            });
+        });
+
+        function createNotesInputs(num) {
+            const notesInput = document.getElementById('notesInput');
+            notesInput.innerHTML = '';
+            for (let i = 0; i < num; i++) {
+                const label = document.createElement('label');
+                label.textContent = `Nota ${i + 1}:`;
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.classList.add('note');
+                input.min = 1;
+                input.max = 10;
+                notesInput.appendChild(label);
+                notesInput.appendChild(input);
+            }
+        }
+
+        document.getElementById('numNotes').addEventListener('input', (event) => {
+            const numNotes = parseInt(event.target.value);
+            if (!isNaN(numNotes) && numNotes > 0) {
+                createNotesInputs(numNotes);
+            }
+        });
+
+        function calculate() {
+            let i, a = [], b = 0, t, ni, npi, bp, zece = 0, noua = 0;
+            let n, ma, pi, pin, mn, np;
+
+            n = parseFloat(document.getElementById('numNotes').value);
+            ni = n;
+            const notes = document.querySelectorAll('.note');
+            for (i = 0; i < n; i++) {
+                a[i] = parseFloat(notes[i].value);
+                b = b + a[i];
+            }
+            ma = b / n;
+            const output = document.getElementById('output');
+            output.innerHTML = `Media ta actuală este - ${ma}<br>`;
+
+            const option = prompt("Dacă vrei să vezi câte note de 10 îți trebuie ca media ta să fie cu un punct mai mare tastează 1: \nDacă vrei să vezi câte note de 9 îți trebuie ca media ta să fie cu un punct mai mare tastează 2: \nDacă vrei să vezi câte note de 10 și 9 îți trebuie ca media ta să fie cu un punct mai mare tastează 3: ");
+            t = parseInt(option);
+
+            pi = ma - Math.floor(ma);
+            if (ma>9.5) {
+                output.innerHTML = `Media ta actuală este - ${ma}<br>`;
+            }
+            if (t === 1 && ma<9.5) {
+                if (pi < 0.5) {
+                    bp = b + 10;
+                    np = n + 1;
+                    mn = bp / np;
+                    pin = mn - Math.floor(mn);
+                    zece++;
+                    while (pin < 0.5) {
+                        bp = bp + 10;
+                        np = np + 1;
+                        mn = bp / np;
+                        pin = mn - Math.floor(mn);
+                        zece++;
+                    }
+                } else {
+                    bp = b + 10;
+                    np = n + 1;
+                    mn = bp / np;
+                    pin = mn - Math.floor(mn);
+                    zece++;
+                    while (pin < 0.5) {
+                        bp = bp + 10;
+                        np = np + 1;
+                        mn = bp / np;
+                        pin = mn - Math.floor(mn);
+                        zece++;
+                    }
+                }
+                output.innerHTML += zece === 1 ? `Pentru a-ți crește media cu un punct ai nevoie de ${zece} notă de zece.` : `Pentru a-ți crește media cu un punct ai nevoie de ${zece} note de zece.`;
+            }
+
+            if (t === 2 && ma<9.5) {
+                if (pi < 0.5) {
+                    bp = b + 9;
+                    np = n + 1;
+                    mn = bp / np;
+                    pin = mn - Math.floor(mn);
+                    noua++;
+                    while (pin < 0.5) {
+                        bp = bp + 9;
+                        np = np + 1;
+                        mn = bp / np;
+                        pin = mn - Math.floor(mn);
+                        noua++;
+                    }
+                } else {
+                    bp = b + 9;
+                    np = n + 1;
+                    mn = bp / np;
+                    pin = mn - Math.floor(mn);
+                    noua++;
+                    while (pin < 0.5) {
+                        bp = bp + 9;
+                        np = np + 1;
+                        mn = bp / np;
+                        pin = mn - Math.floor(mn);
+                        noua++;
+                    }
+                }
+                output.innerHTML += noua === 1 ? `Pentru a-ți crește media cu un punct ai nevoie de ${noua} notă de nouă.` : `Pentru a-ți crește media cu un punct ai nevoie de ${noua} note de nouă.`;
+            }
+
+            if (t === 3 && ma<9.5) {
+                if (pi < 0.5) {
+                    bp = b + 9 + 10;
+                    np = n + 2;
+                    mn = bp / np;
+                    pin = mn - Math.floor(mn);
+                    noua++;
+                    zece++;
+                    while (pin < 0.5) {
+                        bp = bp + 9 + 10;
+                        np = np + 2;
+                        mn = bp / np;
+                        pin = mn - Math.floor(mn);
+                        noua++;
+                        zece++;
+                    }
+                } else {
+                    bp = b + 9 + 10;
+                    np = n + 2;
+                    mn = bp / np;
+                    pin = mn - Math.floor(mn);
+                    noua++;
+                    zece++;
+                    while (pin < 0.5) {
+                        bp = bp + 9 + 10;
+                        np = np + 2;
+                        mn = bp / np;
+                        pin = mn - Math.floor(mn);
+                        noua++;
+                        zece++;
+                    }
+                }
+                output.innerHTML += noua === 1 && zece === 1 ? `Pentru a-ți crește media cu un punct ai nevoie de ${noua} notă de nouă și ${zece} notă de zece.` : `Pentru a-ți crește media cu un punct ai nevoie de ${noua} note de nouă și ${zece} note de zece.`;
+            } }
+        
+    </script>
+</body>
+</html>
