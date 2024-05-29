@@ -81,7 +81,7 @@ function calculate() {
     if (ma > 9.5) {
         output.innerHTML = `Media ta actuală este - ${ma.toFixed(2)}<br>`;
     }
-    // if (t === 1 && ma < 9.5) {
+    if (ma < 9.5) {
         if (pi < 0.5) {
             bp = b + 10;
             np = n + 1;
@@ -110,72 +110,41 @@ function calculate() {
             }
         }
         output.innerHTML += zece === 1 ? `Pentru a-ți crește media cu un punct ai nevoie de ${zece} notă de zece.<br>` : `Pentru a-ți crește media cu un punct ai nevoie de ${zece} note de zece.<br>`;
-    // }
+    }
 
-    //if (t === 2 && ma < 9.5) {
+    if (ma < 9.5) {
         if (pi < 0.5) {
             bp = b + 9;
             np = n + 1;
             mn = bp / np;
             pin = mn - Math.floor(mn);
             noua++;
-            while (pin < 0.5) {
+            if (pin < 0.5) {
                 bp = bp + 9;
                 np = np + 1;
                 mn = bp / np;
                 pin = mn - Math.floor(mn);
                 noua++;
             }
-        } else {
+        } 
+        if (pi >= 0.5) {
             bp = b + 9;
             np = n + 1;
             mn = bp / np;
             pin = mn - Math.floor(mn);
             noua++;
-            while (pin < 0.5) {
+            if (pin < 0.5) {
                 bp = bp + 9;
                 np = np + 1;
                 mn = bp / np;
                 pin = mn - Math.floor(mn);
                 noua++;
-            }
-        }
+                
+            } 
+        } 
+        if ( Math.floor(ma) !== Math.floor(mn) ) {
         output.innerHTML += noua === 1 ? `Pentru a-ți crește media cu un punct ai nevoie de ${noua} notă de nouă.<br>` : `Pentru a-ți crește media cu un punct ai nevoie de ${noua} note de nouă.<br>`;
-        scrollDown();
-    //}
-        /*
-    //if (t === 3 && ma < 9.5) {
-        if (pi < 0.5) {
-            bp = b + 9 + 10;
-            np = n + 2;
-            mn = bp / np;
-            pin = mn - Math.floor(mn);
-            noua++;
-            zece++;
-            while (pin < 0.5) {
-                bp = bp + 9 + 10;
-                np = np + 2;
-                mn = bp / np;
-                pin = mn - Math.floor(mn);
-                noua++;
-                zece++;
-            }
-        } else {
-            bp = b + 9 + 10;
-            np = n + 2;
-            mn = bp / np;
-            pin = mn - Math.floor(mn);
-            noua++;
-            zece++;
-            while (pin < 0.5) {
-                bp = bp + 9 + 10;
-                np = np + 2;
-                mn = bp / np;
-                pin = mn - Math.floor(mn);
-                noua++;
-                zece++;
-            }
         }
-        output.innerHTML += noua === 1 && zece === 1 ? `Pentru a-ți crește media cu un punct ai nevoie de ${noua} notă de nouă și ${zece} notă de zece.` : `Pentru a-ți crește media cu un punct ai nevoie de ${noua} note de nouă și ${zece} note de zece.`;
-    //} */
+        scrollDown();
+    }
 }
